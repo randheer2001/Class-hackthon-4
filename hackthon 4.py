@@ -10,7 +10,7 @@ season = crops_data["Season"].values.tolist()
 crop = crops_data["Crop"].values.tolist()
 area = crops_data["Area"].values.tolist()
 production = crops_data["Production"].values.tolist()
-os.chdir("C:\\Users\\Rohit Sagar Shinde\\Desktop")
+os.chdir("C:\\Users\\HP\\Desktop")
 
 # It stores all data on your desktop :
 A = open("Year Wise Data.txt",'w')
