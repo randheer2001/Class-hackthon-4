@@ -1,47 +1,48 @@
-import xlrd
 import os
 import matplotlib.pyplot as plt
-def retrivingyearlydata(crop_year,crop,production):
-    n=input("Enter the year for which you need cropwise productivity details :")
-    for i in range(len(crop_year)):
-        if(crop_year[i]==n):
-            print(str(crop[i])+" : "+str(production[i]))
-def cropwisegraph(crop_year,crop,production):
-    n=input("Enter the crop for which you year vs crop productivity graph:")
-    x1=[]
-    y1=[]
-    for i in range(len(crop_year)):
-        if(crop[i]==n):
-            x1.append(crop_year[i])
-            y1.append(production[i])
-    plt.plot(x1, y1) 
-    plt.xlabel('Year') 
-    plt.ylabel('Production') 
-    plt.title('year vs crop productivity graph') 
-    plt.show() 
-def cropwisedataretive(crop_year,crop,production,area,season,state,district):
-     n=input("Enter the crop for rest of data")
-     for i in range(len(crop_year)):
-        if(crop_year[i]==n):
-            print("\n crop : "+str(crop[i])+"\n production : "+str(production[i])+" \n crop year: " +str(crop_year[i])+"\n season:" +str(season[i])+"\n state:" + str(state[i])+ "\n district:"+ str(district[i]))
-os.chdir("C:\\Users\\HP\\Desktop")
-wb = xlrd.open_workbook("C:\\Users\\HP\\Desktop\\CropsDataFile.xlsx") 
-sheet = wb.sheet_by_index(0) 
-state=sheet.col_values(0)
-district=sheet.col_values(1)
-crop_year=sheet.col_values(2)
-season=sheet.col_values(3)
-crop=sheet.col_values(4)
-area=sheet.col_values(5)
-production=sheet.col_values(6)
-print("Enter 1 for retrivingyearlydata , 2 for cropwisegraph , 3 for crop wise retriveal 4 for exit")
+import pandas as pd
+
+crops_data = pd.read_csv("CropsDataFile.csv")
+state = crops_data["State_Name"].values.tolist()
+district = crops_data["District_Name"].values.tolist()
+crop_year = crops_data["Crop_Year"].values.tolist()
+season = crops_data["Season"].values.tolist()
+crop = crops_data["Crop"].values.tolist()
+area = crops_data["Area"].values.tolist()
+production = crops_data["Production"].values.tolist()
+os.chdir("C:\\Users\\Rohit Sagar Shinde\\Desktop")
+
+# It stores all data on your desktop :
+A = open("Year Wise Data.txt",'w')
+B = open("Crop wise Data.txt",'w')
+
+# Main Program :
+print("Enter 1 for retriving_data_year_wise , 2 for cropwise_graph , 3 for retriving_data_crop_wise , 4 for exit")
 while(1):
-    cl=input("Enter the comand line:")
-    if(cl==1):
-        retrivingyearlydata(crop_year,crop,production)
-    elif(cl==2):
-        cropwisegraph(crop_year,crop,production)
-    elif(cl==3):
-        cropwisedataretive(crop_year,crop,production,area,season,state,district)
+    c = int(input("Enter the comand line : "))
+    if(c==1):
+        n=int(input("Enter the year for which you want to see all details : "))
+        for i in range(0,len(crop_year)):
+            if(crop_year[i]==n):
+                A.write("\n State:"+str(state[i])+ "\n District:"+ str(district[i])+"\n Season:" +str(season[i])+"\n Crop:"+str(crop[i])+"\n Area :"+str(area[i])+ "\n Production : "+str(production[i])+"\n")
+    elif(c==2):
+        C=str(input("Enter the crop name for which you want to see year vs crop productivity graph : "))
+        Year=[]
+        Production=[]
+        for i in range(0,len(crop_year)):
+            if(crop[i]==C):
+                Year.append(crop_year[i])
+                Production.append(production[i])
+        plt.bar(Year,Production) 
+        plt.xlabel("Year") 
+        plt.ylabel("Production") 
+        plt.title(f"Year vs Crop Productivity graph of {C}",color = "Red" )
+        plt.show()     
+    elif(c==3):
+        D=str(input("Enter the crop name for which you want to see all details : "))
+        for i in range(len(crop_year)):
+            if(crop[i]==D):
+                B.write("\n State:"+str(state[i])+ "\n District:"+ str(district[i]) + " \n Crop Year: " +str(crop_year[i])+"\n Season:" +str(season[i])+"\n Area :"+str(area[i])+ "\n Production : "+str(production[i])+"\n")
     else:
-        break
+        break            
+     
